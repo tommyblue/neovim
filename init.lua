@@ -27,3 +27,34 @@ vim.keymap.set('n', '<C-f>', builtin.live_grep, { noremap = true, silent = true 
 --vim.keymap.set('n', '<leader>h', builtin.help_tags, { noremap = true, silent = true })
 
 vim.keymap.set('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+--   callback = function()
+--     vim.lsp.buf.format({ async = false })
+--   end,
+-- })
+
+-- vim.keymap.set("n", "<leader>f", function()
+--   vim.lsp.buf.format({ async = true })
+-- end, { desc = "Format code" })
+
+require('lspconfig').ts_ls.setup({
+  on_attach = function(client, bufnr)
+    -- Usa la formattazione del LSP di tsserver
+    vim.keymap.set('n', '<leader>f', function()
+      vim.lsp.buf.format({ async = true })
+    end, { buffer = bufnr, noremap = true, silent = true })
+
+    -- Disabilita la formattazione automatica se usi un altro formatter
+    client.server_capabilities.documentFormattingProvider = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.ts", "*.tsx" },
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
