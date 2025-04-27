@@ -19,6 +19,19 @@ require('Comment').setup()
 --vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 --vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 --vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
+require('telescope').load_extension('fzf')
+
 
 local builtin = require('telescope.builtin')
 --vim.keymap.set('n', '<C-b>', builtin.buffers, { noremap = true, silent = true })
@@ -51,10 +64,35 @@ require('lspconfig').ts_ls.setup({
   end,
 })
 
+require("conform").setup({
+  formatters_by_ft = {
+    typescript = { "prettier" },
+    typescriptreact = { "prettier" },
+    javascript = { "prettier" },
+    javascriptreact = { "prettier" },
+  },
+})
+
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.ts", "*.tsx" },
-  callback = function()
-    vim.lsp.buf.format({ async = false })
+  --callback = function()
+  --  vim.lsp.buf.format({ async = false })
+  --end,
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
   end,
 })
 
+-- autocomplete
+local cmp = require("cmp")
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
+  sources = {
+    { name = "nvim_lsp" },
+  },
+})
