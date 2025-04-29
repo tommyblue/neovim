@@ -10,6 +10,10 @@ require("config.lualine")
 --require("mason").setup()
 --require("mason-lspconfig").setup()
 
+require("catppuccin").setup({
+    flavour = "frappe",
+})
+
 -- https://github.com/nvim-tree/nvim-tree.lua
 vim.opt.termguicolors = true
 require("nvim-tree").setup()
@@ -42,6 +46,10 @@ vim.keymap.set('n', '<C-f>', builtin.live_grep, { noremap = true, silent = true 
 --vim.keymap.set('n', '<leader>h', builtin.help_tags, { noremap = true, silent = true })
 
 vim.keymap.set('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "References" })
+vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Definition" })
+vim.keymap.set("n", "<C-space>", require("telescope.builtin").lsp_definitions, { desc = "Definition" })
 
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
