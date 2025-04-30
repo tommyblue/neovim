@@ -14,6 +14,22 @@ require("catppuccin").setup({
     flavour = "frappe",
 })
 
+require("toggleterm").setup{
+    direction = 'float',
+    float_opts = {
+        border = 'single', -- | 'double' | 'shadow' | 'curved' | ... other options supported by win open
+        -- like `size`, width, height, row, and col can be a number or function which is passed the current terminal
+        --width = <value>,
+        --height = <value>,
+        --row = <value>,
+        --col = <value>,
+        winblend = 3,
+        --zindex = <value>,
+        title_pos = 'center',
+    },
+}
+vim.keymap.set('n', '<C-]>', '<Cmd>ToggleTerm<CR>', { noremap = true, silent = true })
+
 -- https://github.com/nvim-tree/nvim-tree.lua
 vim.opt.termguicolors = true
 require("nvim-tree").setup()
