@@ -27,8 +27,11 @@ require("toggleterm").setup{
         --zindex = <value>,
         title_pos = 'center',
     },
+    start_in_insert = true,
+    insert_mappings = true,
+    terminal_mappings = true,
 }
-vim.keymap.set('n', '<C-]>', '<Cmd>ToggleTerm<CR>', { noremap = true, silent = true })
+vim.keymap.set({'n', 't'}, '<C-\\>', '<Cmd>ToggleTerm<CR>', { noremap = true, silent = true })
 
 -- https://github.com/nvim-tree/nvim-tree.lua
 vim.opt.termguicolors = true
