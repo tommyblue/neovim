@@ -16,6 +16,19 @@ return {
                     "ts_ls",
                 }
             })
+
+        -- require('lspconfig').ts_ls.setup({
+        --   on_attach = function(client, bufnr)
+        --     -- Usa la formattazione del LSP di tsserver
+        --     vim.keymap.set('n', '<leader>f', function()
+        --       vim.lsp.buf.format({ async = true })
+        --     end, { buffer = bufnr, noremap = true, silent = true })
+        --
+        --     -- Disabilita la formattazione automatica se usi un altro formatter
+        --     client.server_capabilities.documentFormattingProvider = true
+        --   end,
+        -- })
+
         end,
     }
 }
